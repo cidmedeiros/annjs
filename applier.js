@@ -1,11 +1,20 @@
 plt = require('nodeplotlib');
 Perceptron = require('./Perceptron');
-Points = require('./training')
+Points = require('./training');
 
-plots = new Points(100)
-inputs = plots.plot();
+var plots = new Points(100);
+var mode = 'markers';
+var type = 'scatter';
+var markerSize = 4;
+var data = plots.plot(mode, type, markerSize);
 /* p = new Perceptron(inputs);
 guess = p.guess(); */
-console.log(inputs);
-const data = [{x: [1, 3, 4, 5], y: [3, 12, 1, 4], type: 'line'}];
-plt.plot(inputs);
+
+data[0].mode = mode
+data[1].mode = mode
+
+var layout = {
+  title:'Two Categories Labels Hover'
+};
+
+plt.plot(data, layout);
