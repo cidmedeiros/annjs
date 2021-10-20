@@ -8,7 +8,7 @@ class Points{
             this.y.push(Math.floor(Math.random() * Math.floor(nPoints)))
         }
     }
-
+    //Build graphical objects
     plot(){
         let cat1 = {
             x : [],

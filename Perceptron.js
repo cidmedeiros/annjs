@@ -24,7 +24,7 @@ class Perceptron{
             this.weights.push(weight_i)
         }
     }
-
+    //Perceptron engine
     guess(){
         var sum = 0;
         //steps 1 and 2
