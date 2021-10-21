@@ -1,12 +1,12 @@
 plt = require('nodeplotlib');
 Perceptron = require('./Perceptron');
-Points = require('./training');
+Data = require('./dataGenerator');
 
 //Generates a data set
-var plots = new Points(100);
+var pts = new Data(100);
 
 //Generates graphical cartesian points
-var data = plots.plot(mode, type, markerSize);
+var data = pts.plot(mode, type, markerSize);
 
 //Graphical settings
 var mode = 'markers';
@@ -28,8 +28,8 @@ var layout = {
   title:'Two Categories Labels Hover'
 };
 
-plt.plot(data, layout);
+//plt.plot(data, layout);
 
-
-/* p = new Perceptron(inputs);
-guess = p.guess(); */
+p = new Perceptron(100, 0.001);
+guess = p.guess(data);
+console.log(guess);

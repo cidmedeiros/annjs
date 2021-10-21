@@ -1,4 +1,4 @@
-class Points{
+class Data{
     //Constructor
     constructor(nPoints){
         this.x = [];
@@ -8,21 +8,32 @@ class Points{
             this.y.push(Math.floor(Math.random() * Math.floor(nPoints)))
         }
     }
+    //Points
+    points(){
+        points = new Array(nPoints)
+        for (let i = 0; i < nPoints; i++){
+            if (this.x[i] > this.y[i]){
+                points.push({x:this.x, y:this.y, label:1})
+            }else {
+                points.push({x:this.x, y:this.y, label:-1})
+            }
+        }
+    }
     //Build graphical objects
-    plot(){
+    plot(cat1, cat2){
         let cat1 = {
             x : [],
             y : [],
-            name : 'Cat 1',
+            name : cat1,
             text: []
         }
         let cat2 = {
             x : [],
             y : [],
-            name : 'Cat 2',
+            name : cat2,
             text: []
         }
-        for (let i = 0; i < this.x.length; i++){
+        for (let i = 0; i < nPoints; i++){
             if (this.x[i] > this.y[i]){
                 cat1.x.push(this.x[i])
                 cat1.y.push(this.y[i])
@@ -37,4 +48,4 @@ class Points{
     }
 }
 
-module.exports = Points
+module.exports = Data
