@@ -6,38 +6,35 @@ Data2d = require('./dataGenerator');
 var data = new Data2d(100);
 
 //Generates a categorized data points
-var pts2d = data.points()
-console.log(pts2d[0])
+var pts2d = data.points();
+//Generates graphical cartesian points
+var arrCats = ['Cat1','Cat2'];
+var plotPts = data.plot(pts2d, c1=arrCats[0], c2=arrCats[1]);
+plt.stack(plotPts)
+//Train the Percetron
+p = new Perceptron(2, 0.001); //n = 2 -> it's a 2d dataset
+let initWeights = p.getWeights();
+console.log(`Initial Weights: ${initWeights}`);
 
-//Train the ANN
-var pt2d = [pts2d[0].x, pts2d[0].y]
-p = new Perceptron(2, 0.001);
-guess = p.guess(pt2d);
-console.log(guess,'--',pts2d[0].label);
+for (let i =0; i < pts2d.lenght; i++){
+  let inputs = [pts2d[i].x, pts2d[i].y];
+  let target = pts2d[i].label
+  p.train(inputs, target)
+  //Visualize training on the fly
+  let guess = p.guess(inputs)
+  if (guess != target){
 
+  }
+}
+
+let finWeights = p.getWeights();
+console.log(`Final Weights: ${finWeights}`);
 
 /* ----------------------------------------------------------PLOT GRAPHS AREA---------------------------------------------------------- */
-//Generates graphical cartesian points
-var plotPts = data.plot(pts2d, c1='Cat1', c2='Cat2');
-
-//Graphical settings
-var mode = 'markers';
-var type = 'scatter';
-var markerSize = 12;
-
-//Applying graphical settings
-plotPts[0].mode = mode
-plotPts[1].mode = mode
-
-plotPts[0].type = type
-plotPts[1].type = type
-
-plotPts[0].markerSize = markerSize
-plotPts[1].markerSize = markerSize
-
 //Graphical layout elements
 var layout = {
   title:'Two Categories Labels Hover'
-};
+  };
 
-//plt.plot(plotPts, layout);
+//Plot
+plt.plot(plotPts, layout);

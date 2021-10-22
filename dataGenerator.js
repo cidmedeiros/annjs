@@ -10,6 +10,7 @@ class Data2d{
     }
     //Points
     points(){
+        //Labels the point accordingly to its category
         let points = []
         for (let i = 0; i < this.x.length; i++){
             if (this.x[i] > this.y[i]){
@@ -27,13 +28,33 @@ class Data2d{
             x : [],
             y : [],
             name : c1,
-            text: []
+            text: [],
+            mode: 'markers',
+            marker: {
+                color: 'rgb(0, 0, 255)',
+                opacity: 0.5,
+                size: 20,
+                line: {
+                    color: 'rgb(0, 0, 255)',
+                    width: 2
+                }
+            }
         }
         let cat2 = {
             x : [],
             y : [],
             name : c2,
-            text: []
+            text: [],
+            mode: 'markers',
+            marker: {
+                color: 'rgb(0, 128, 0)',
+                opacity: 0.5,
+                size: 20,
+                line: {
+                    color: 'rgb(0, 128, 0)',
+                    width: 2
+                }
+            }
         }
         for (let i = 0; i < points.length; i++){
             if (points[i].label == 1){
@@ -47,6 +68,28 @@ class Data2d{
             }
         }
         return [cat1, cat2]
+    }
+
+    changeColor(target,points,i,arrCats){
+        let newPoint = {
+            x : [],
+            y : [],
+            name : c1,
+            text: [],
+            mode: 'markers',
+            marker: {
+                color: 'rgb(0, 0, 255)',
+                opacity: 0.5,
+                size: 20,
+                line: {
+                    color: 'rgb(0, 0, 255)',
+                    width: 2
+                }
+            }
+        }
+        if (target == 1){
+            
+        }
     }
 }
 

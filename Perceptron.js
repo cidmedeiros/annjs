@@ -35,13 +35,14 @@ class Perceptron{
     train(inputs, target){
         //inputs -> array: it holds n numbers corresponding the dataset dimensions (one single vector)
         //target -> int: id the vector's assigned category (for two categories usually: -1 and 1)
+        //Please notice that training the perceptron is simply updating its weights accordingly to the error
         let guess = this.guess(inputs);
         //possible errors -> -1-(-1) = 0; -1-(1) = -2; 1-(-1) = 2; 1-(1) = 0 
         let error = target - guess;
-
         //Tune all the weights Gradient Descent style
         for (let i = 0; i < this.weights.length; i++){
             //if error = 0, weight doesn't get updated
+            //the weights and the respective dimension is linked by the indices in both arrays
             this.weights[i] += error*inputs[i]*this.lr;
         }
     }
@@ -56,6 +57,11 @@ class Perceptron{
         }
         //step 3 - it returns -1 ou 1
         return sign(sum)
+    }
+
+    //Get thw weights
+    getWeights(){
+        return this.weights;
     }
 }
 
