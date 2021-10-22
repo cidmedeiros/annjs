@@ -17,9 +17,11 @@ function sign(n){
         }
     }
 }
-
+//Perceptron
 class Perceptron{
     //Constructor
+    //n -> int: describes the n dimensions of the dataset
+    //lr -> float: learning rate
     constructor(n, lr){
         this.weights = new Array(n);
         this.lr = lr;
@@ -31,24 +33,28 @@ class Perceptron{
     // Function to train the Perceptron
     // Tweaking the weights: Weights are adjusted based on target
     train(inputs, target){
-        let guess = this.guess();
+        //inputs -> array: it holds n numbers corresponding the dataset dimensions (one single vector)
+        //target -> int: id the vector's assigned category (for two categories usually: -1 and 1)
+        let guess = this.guess(inputs);
         //possible errors -> -1-(-1) = 0; -1-(1) = -2; 1-(-1) = 2; 1-(1) = 0 
         let error = target - guess;
 
         //Tune all the weights Gradient Descent style
         for (let i = 0; i < this.weights.length; i++){
+            //if error = 0, weight doesn't get updated
             this.weights[i] += error*inputs[i]*this.lr;
         }
     }
 
     // Guess -1 or 1 based on input values
     guess(inputs){
+        //inputs -> array: it holds n numbers corresponding the dataset dimensions (one single vector)
         let sum = 0;
         //steps 1 and 2
         for (let i = 0; i < this.weights.length; i++){
             sum += inputs[i]*this.weights[i]
         }
-        //step 3
+        //step 3 - it returns -1 ou 1
         return sign(sum)
     }
 }

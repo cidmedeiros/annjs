@@ -1,20 +1,24 @@
 plt = require('nodeplotlib');
 Perceptron = require('./Perceptron');
-Data = require('./dataGenerator');
+Data2d = require('./dataGenerator');
 
 //Generates a data set
-var data = new Data(30);
+var data = new Data2d(100);
 
 //Generates a categorized data points
-pts = data.points()
+var pts2d = data.points()
+console.log(pts2d[0])
 
 //Train the ANN
-/* p = new Perceptron(100, 0.001);
-guess = p.guess(data);
-console.log(guess); */
+var pt2d = [pts2d[0].x, pts2d[0].y]
+p = new Perceptron(2, 0.001);
+guess = p.guess(pt2d);
+console.log(guess,'--',pts2d[0].label);
 
+
+/* ----------------------------------------------------------PLOT GRAPHS AREA---------------------------------------------------------- */
 //Generates graphical cartesian points
-var plotPts = data.plot(pts, c1='Cat1', c2='Cat2');
+var plotPts = data.plot(pts2d, c1='Cat1', c2='Cat2');
 
 //Graphical settings
 var mode = 'markers';

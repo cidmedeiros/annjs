@@ -1,4 +1,4 @@
-class Data{
+class Data2d{
     //Constructor
     constructor(nPoints){
         this.x = [];
@@ -39,15 +39,15 @@ class Data{
             if (points[i].label == 1){
                 cat1.x.push(points[i].x)
                 cat1.y.push(points[i].y)
-                cat1.text.push(`${points[i].x}-${points[i].x}`)
+                cat1.text.push(`${points[i].x}-${points[i].y}-L(${points[i].label})`)
             } else {
                 cat2.x.push(points[i].x)
                 cat2.y.push(points[i].y)
-                cat2.text.push(`${points[i].x}-${points[i].x}`)
+                cat2.text.push(`${points[i].x}-${points[i].y}-L(${points[i].label})`)
             }
         }
         return [cat1, cat2]
     }
 }
 
-module.exports = Data
+module.exports = Data2d
