@@ -1,46 +1,72 @@
 //Tools for training
+plt = require('nodeplotlib');
+
+function changeColor(point){
+    //it expects a plotable setup point
+    point.marker = {
+        color: 'rgb(255,0, 0)',
+        size: 25,
+        line: {
+            color: 'rgb(255,0,0)',
+            width: 2
+        }
+    }
+    return point;
+}
 
 module.exports = {
-    training: function(p,plotPts,arrCats,data){
+    training: function(p,data){
         //p -> perceptron
-        //PlotPts -> data points with plotable setup
-        //arrCats -> names of the expected categories on the data
-        //data -> data object with chageColor method
+        // data -> object with:
+        //      * points -> data points with plotable setup
+        //      * cats -> names of the expected categories on the data
         let results = {};
         results.iniWeights = p.getWeights();
         let pred = [];
 
-        for (point of plotPts){
+        for (point of data.points){
             let inputs = [point.x[0], point.y[0]];
-            let target = point.name == arrCats[0] ? 1 : -1;
+            let target = point.name == data.cats[0] ? 1 : -1;
+            //Tweaking the weights
             p.train(inputs, target)
-            //Visualize training on the fly
+            //store current the performance
             let guess = p.guess(inputs)
             if (guess != target){
-                plotPoint = data.changeColor(point);
+                plotPoint = changeColor(point);
                 pred.push(plotPoint);
             } else {
                 pred.push(point);
             }
         }
 
-        results.preceptron = p;
+        results.perceptron = p;
         results.pred = pred;
-        
+
         return results;
     },
 
-    trainingSessions: function(p,plotPts,arrCats,data,n_train){
+    trainingSessions: function(p,data,n_train){
         //p -> perceptron
-        //PlotPts -> data points with plotable setup
-        //arrCats -> names of the expected categories on the data
-        //data -> data object with chageColor method
-        //n_train -> int indicating how many time to train the perceptron   
+        //n_train -> int indicating how many time to train the perceptron
+        // data -> object with:
+        //      * points -> data points with plotable setup
+        //      * cats -> names of the expected categories on the data
+        console.log(`Init: ${p.getWeights()}`);
         for (let i = 0; i < n_train; i++){
-            console.log(`Init weights: ${p.getWeights()}`);
-            var results = tr.training(p,plotPts,arrCats,data, n_train);
-            console.log(`Final weights: ${results.preceptron.getWeights()}`);
+            console.log(`Init: ${p.getWeights()}`);
+            const iniWeights = p.getWeights();
+            let results = training(p,plotPts,arrCats,data, n_train);
+            console.log(`Final: ${results.perceptron.getWeights()}`);
+            let layout = {
+                title:{
+                    text: `RUN ${i} Initial Weights: ${iniWeights} -- Final Weights: ${subResults.perceptron.getWeights()}`,
+                    font: {
+                        size: 8
+                    }
+                },
+                showlegend: false
+            }
+            plt.plot(results.pred,layout);
         }
-        return results
     }
 }

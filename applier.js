@@ -1,32 +1,12 @@
-plt = require('nodeplotlib');
-Perceptron = require('./Perceptron');
-Data2d = require('./dataGenerator');
-tr = require('./training');
-
-//Generates a data set
-var data = new Data2d(800);
-
-//Generates a categorized data points
-var pts2d = data.points();
-
-//Generates graphical cartesian points
-var arrCats = ['Cat1','Cat2'];
-var plotPts = data.plot(pts2d, c1=arrCats[0], c2=arrCats[1]);
+const plt = require('nodeplotlib');
+const Perceptron = require('./Perceptron');
+const tr = require('./training');
+let data = require('./data.json');
 
 //Train the Percetron
 p = new Perceptron(2, 0.001); //n = 2 -> it's a 2d dataset
-let n_train = 6;
-let results = tr.trainingSessions(p,plotPts,arrCats,data,n_train);
-
-/* var layout = {
-  title:{
-    text: `RUN ${i} /\n/ Initial Weights: ${results.iniWeights} -- Final Weights: ${results.finalWeights}`,
-    font: {
-      size: 8
-    }
-  },
-  showlegend: false
-} */
+let n_train = 3;
+tr.trainingSessions(p,data,n_train);
 
 /* ----------------------------------------------------------PLOT GRAPHS AREA---------------------------------------------------------- */
 //Graphical layout elements
@@ -36,6 +16,19 @@ var layout = {
   };
 
 //Plot
-/* for (graph of results){
-  plt.plot(graph, layout);
+/* var i = 0;
+for (graph of sessionResults){
+  console.log(graph.perceptron);
+  let data = graph.pred
+  let layout = {
+    title:{
+    text: `RUN ${i} Initial Weights: ${graph.iniWeights} -- Final Weights: ${graph.perceptron.getWeights()}`,
+    font: {
+      size: 8
+    }
+  },
+    showlegend: false
+  }
+  i++
+  plt.plot(data, layout);
 } */

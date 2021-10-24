@@ -63,19 +63,6 @@ class Data2d{
         }
         return plotPoints;
     }
-
-    changeColor(point){
-        //it expects a plotable setup point
-        point.marker = {
-            color: 'rgb(255,0, 0)',
-            size: 25,
-            line: {
-                color: 'rgb(255,0,0)',
-                width: 2
-            }
-        }
-        return point;
-    }
 }
 
 module.exports = Data2d
