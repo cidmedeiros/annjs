@@ -4,8 +4,8 @@ class Data2d{
         this.x = [];
         this.y = [];
         for (let i = 0; i < nPoints; i++){
-            this.x.push(Math.floor(Math.random() * Math.floor(nPoints)))
-            this.y.push(Math.floor(Math.random() * Math.floor(nPoints)))
+            this.x.push(Math.floor(Math.random() * nPoints));
+            this.y.push(Math.floor(Math.random() * nPoints));
         }
     }
     //Points
@@ -30,6 +30,7 @@ class Data2d{
                 x : [],
                 y : [],
                 name : '',
+                legendgroup: '',
                 text: [],
                 mode: 'markers',
                 marker: {
@@ -45,13 +46,15 @@ class Data2d{
             if (points[i].label == 1){
                 somePoint.x = [points[i].x];
                 somePoint.y = [points[i].y];
-                somePoint.name = c1; 
+                somePoint.name = c1;
+                somePoint.legendgroup = c1;
                 somePoint.text = [`${points[i].x}-${points[i].y}-L(${points[i].label})`];
                 plotPoints.push(somePoint);
             } else {
                 somePoint.x = [points[i].x];
                 somePoint.y = [points[i].y];
                 somePoint.name = c2;
+                somePoint.legendgroup = c2;
                 somePoint.text = [`${points[i].x}-${points[i].y}-L(${points[i].label})`];
                 somePoint.marker.color = 'rgb(0, 128, 0)';
                 somePoint.marker.line.color = 'rgb(0, 128, 0)';
@@ -62,6 +65,7 @@ class Data2d{
     }
 
     changeColor(point){
+        //it expects a plotable setup point
         point.marker = {
             color: 'rgb(255,0, 0)',
             size: 25,
@@ -70,7 +74,7 @@ class Data2d{
                 width: 2
             }
         }
-        return [point];
+        return point;
     }
 }
 
