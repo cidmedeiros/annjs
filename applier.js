@@ -1,9 +1,10 @@
 plt = require('nodeplotlib');
 Perceptron = require('./Perceptron');
 Data2d = require('./dataGenerator');
+tr = require('./training');
 
 //Generates a data set
-var data = new Data2d(10);
+var data = new Data2d(800);
 
 //Generates a categorized data points
 var pts2d = data.points();
@@ -14,29 +15,27 @@ var plotPts = data.plot(pts2d, c1=arrCats[0], c2=arrCats[1]);
 
 //Train the Percetron
 p = new Perceptron(2, 0.001); //n = 2 -> it's a 2d dataset
-let initWeights = p.getWeights();
-console.log(`Initial Weights: ${initWeights}`);
+let n_train = 6;
+let results = tr.trainingSessions(p,plotPts,arrCats,data,n_train);
 
-for (point of pts2d){
-  let inputs = [point.x, point.y];
-  let target = point.label
-  p.train(inputs, target)
-  //Visualize training on the fly
-  let guess = p.guess(inputs)
-  if (guess != target){
-    plotPoint = data.changeColor(point, arrCats);
-    plt.plot(plotPoint);
-  }
-}
-
-let finWeights = p.getWeights();
-console.log(`Final Weights: ${finWeights}`);
+/* var layout = {
+  title:{
+    text: `RUN ${i} /\n/ Initial Weights: ${results.iniWeights} -- Final Weights: ${results.finalWeights}`,
+    font: {
+      size: 8
+    }
+  },
+  showlegend: false
+} */
 
 /* ----------------------------------------------------------PLOT GRAPHS AREA---------------------------------------------------------- */
 //Graphical layout elements
 var layout = {
-  title:'Two Categories Labels Hover'
+  title:'Two Categories Labels Hover',
+  showlegend: false
   };
 
 //Plot
-plt.plot(plotPts, layout);
+/* for (graph of results){
+  plt.plot(graph, layout);
+} */
