@@ -29,7 +29,7 @@ class Perceptron{
         for (let i = 0; i < this.weights.length; i++){
             this.weights[i] = Math.random(-1, 1);
         }
-    }
+    };
     // Function to train the Perceptron
     // Tweaking the weights: Weights are adjusted based on target
     train(inputs, target){
@@ -45,7 +45,7 @@ class Perceptron{
             //the weights and the respective dimension is linked by the indices in both arrays
             this.weights[i] += error*inputs[i]*this.lr;
         }
-    }
+    };
 
     // Guess -1 or 1 based on input values
     guess(inputs){
@@ -57,12 +57,22 @@ class Perceptron{
         }
         //step 3 - it returns -1 ou 1
         return sign(sum)
-    }
+    };
 
     //Get thw weights
     getWeights(){
         return this.weights;
-    }
+    };
+    //Get thw weights
+    getLr(){
+        return this.lr;
+    };
+
+    //Set Learning rate
+    setLearning(lrate){
+        this.lrate = lr;
+    };
+
 }
 
 module.exports = Perceptron
