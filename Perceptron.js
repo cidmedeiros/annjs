@@ -30,6 +30,7 @@ class Perceptron{
             this.weights[i] = Math.random(-1, 1);
         }
     };
+
     // Function to train the Perceptron
     // Tweaking the weights: Weights are adjusted based on target
     train(inputs, target){
@@ -63,16 +64,18 @@ class Perceptron{
     getWeights(){
         return this.weights;
     };
+    //Set Learning rate
+    setWeights(arr){
+        this.weights = arr;
+    };
     //Get thw weights
     getLr(){
         return this.lr;
     };
-
     //Set Learning rate
     setLearning(lrate){
         this.lrate = lr;
     };
-
 }
 
 module.exports = Perceptron
