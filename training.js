@@ -14,59 +14,54 @@ function changeColor(point){
     return point;
 }
 
-module.exports = {
-    training: function(p,data){
-        //p -> perceptron
-        // data -> object with:
-        //      * points -> data points with plotable setup
-        //      * cats -> names of the expected categories on the data
-        let results = {};
-        results.iniWeights = p.getWeights();
-        let pred = [];
+function training (p,data){
+    //p -> perceptron
+    // data -> object with:
+    //      * points -> data points with plotable setup
+    //      * cats -> names of the expected categories on the data
+    let results = {};
+    results.iniWeights = p.getWeights();
+    let pred = [];
 
-        for (point of data.points){
-            let inputs = [point.x[0], point.y[0]];
-            let target = point.name == data.cats[0] ? 1 : -1;
-            //Tweaking the weights
-            p.train(inputs, target)
-            //store current the performance
-            let guess = p.guess(inputs)
-            if (guess != target){
-                plotPoint = changeColor(point);
-                pred.push(plotPoint);
-            } else {
-                pred.push(point);
-            }
+    for (point of data.data){
+        let inputs = [point.x[0], point.y[0]];
+        let target = point.name == data.cats[0] ? 1 : -1;
+        //Tweaking the weights
+        p.train(inputs, target)
+        //store current the performance
+        let guess = p.guess(inputs)
+        if (guess != target){
+            plotPoint = changeColor(point);
+            pred.push(plotPoint);
+        } else {
+            pred.push(point);
         }
+    }
+    results.perceptron = p;
+    results.pred = pred;
+    return results;
+}
 
-        results.perceptron = p;
-        results.pred = pred;
-
-        return results;
-    },
-
-    trainingSessions: function(p,data,n_train){
+module.exports = {
+    trainingSessions: async(p,data,n_train) =>{
         //p -> perceptron
         //n_train -> int indicating how many time to train the perceptron
         // data -> object with:
         //      * points -> data points with plotable setup
         //      * cats -> names of the expected categories on the data
-        console.log(`Init: ${p.getWeights()}`);
         for (let i = 0; i < n_train; i++){
-            console.log(`Init: ${p.getWeights()}`);
-            const iniWeights = p.getWeights();
-            let results = training(p,plotPts,arrCats,data, n_train);
-            console.log(`Final: ${results.perceptron.getWeights()}`);
+            const iniWeights = JSON.stringify(p.getWeights());
+            let results = training(p, data);
             let layout = {
                 title:{
-                    text: `RUN ${i} Initial Weights: ${iniWeights} -- Final Weights: ${subResults.perceptron.getWeights()}`,
+                    text: `RUN ${i} Initial Weights: ${iniWeights} -- Final Weights: [${results.perceptron.getWeights()}]`,
                     font: {
                         size: 8
                     }
                 },
                 showlegend: false
             }
-            plt.plot(results.pred,layout);
+            await plt.plot(results.pred,layout);
         }
     }
 }
