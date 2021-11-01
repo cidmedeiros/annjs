@@ -1,11 +1,15 @@
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
 class Data2d{
     //Constructor
-    constructor(nPoints){
+    constructor(nPoints, min, max){
         this.x = [];
         this.y = [];
         for (let i = 0; i < nPoints; i++){
-            this.x.push(Math.floor(Math.random() * nPoints));
-            this.y.push(Math.floor(Math.random() * nPoints));
+            this.x.push(getRandomArbitrary(min, max).toFixed(2));
+            this.y.push(getRandomArbitrary(min, max).toFixed(2));
         }
     }
     //Points

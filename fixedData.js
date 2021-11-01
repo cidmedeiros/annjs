@@ -2,10 +2,10 @@
 Data2d = require('./dataGenerator');
 const fs = require('fs');
 
-function generateFixedData(n){
+function generateFixedData(n, min, max){
     //n -> int indicates the number of data points to create
     //Generates a data set
-    var data = new Data2d(n);
+    var data = new Data2d(n, min, max);
 
     //Generates a categorized data points
     var pts2d = data.points();
@@ -26,4 +26,4 @@ function generateFixedData(n){
     });
 }
 
-generateFixedData(100);
+generateFixedData(100, -1, 1);
