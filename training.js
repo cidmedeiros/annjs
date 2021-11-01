@@ -49,9 +49,12 @@ module.exports = {
         // data -> object with:
         //      * points -> data points with plotable setup
         //      * cats -> names of the expected categories on the data
-        for (let i = 0; i < n_train; i++){
+        let results = training(p, data);
+        plt.plot(results.pred,layout);
+        for (let i = 0; i < n_train-1; i++){
             const iniWeights = JSON.stringify(p.getWeights());
             let results = training(p, data);
+            
             let layout = {
                 title:{
                     text: `RUN ${i} Initial Weights: ${iniWeights} -- Final Weights: [${results.perceptron.getWeights()}]`,
