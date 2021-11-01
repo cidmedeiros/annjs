@@ -49,22 +49,41 @@ module.exports = {
         // data -> object with:
         //      * points -> data points with plotable setup
         //      * cats -> names of the expected categories on the data
-        let results = training(p, data);
-        plt.plot(results.pred,layout);
+
+        //First run set up
+        const firstIniWeights = JSON.stringify(p.getWeights());
+        let previousResults = training(p, data);
+        let layout = {
+            title:{
+                text: `RUN ${1} Initial Weights: ${firstIniWeights} -- Final Weights: [${p.getWeights()}]`,
+                font: {
+                    size: 8
+                }
+            },
+            showlegend: false
+        };
+        await plt.plot(previousResults.pred,layout);
+
         for (let i = 0; i < n_train-1; i++){
+            if(i % 10 == 0){
+                console.log(`Run number ${i}`);
+                console.log(`RUN ${i} Initial Weights: ${iniWeights} -- Final Weights: [${results.perceptron.getWeights()}]`);
+            }
             const iniWeights = JSON.stringify(p.getWeights());
             let results = training(p, data);
-            
-            let layout = {
-                title:{
-                    text: `RUN ${i} Initial Weights: ${iniWeights} -- Final Weights: [${results.perceptron.getWeights()}]`,
-                    font: {
-                        size: 8
-                    }
-                },
-                showlegend: false
+            if(JSON.stringify(previousResults) != JSON.stringify(results)){
+                previousResults = results
+                let layout = {
+                    title:{
+                        text: `RUN ${i} Initial Weights: ${iniWeights} -- Final Weights: [${results.perceptron.getWeights()}]`,
+                        font: {
+                            size: 8
+                        }
+                    },
+                    showlegend: false
+                }
+                await plt.plot(results.pred,layout);
             }
-            await plt.plot(results.pred,layout);
         }
     }
 }
