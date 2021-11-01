@@ -23,7 +23,7 @@ function training (p,data){
     results.iniWeights = p.getWeights();
     let pred = [];
 
-    for (point of data.data){
+    for (point of data.points){
         let inputs = [point.x[0], point.y[0]];
         let target = point.name == data.cats[0] ? 1 : -1;
         //Tweaking the weights
@@ -43,7 +43,7 @@ function training (p,data){
 }
 
 module.exports = {
-    trainingSessions: async(p,data,n_train) =>{
+    trainingSessions: async(p,data,n_train, nLogs) =>{
         //p -> perceptron
         //n_train -> int indicating how many time to train the perceptron
         // data -> object with:
@@ -65,24 +65,24 @@ module.exports = {
         await plt.plot(previousResults.pred,layout);
 
         for (let i = 0; i < n_train-1; i++){
-            if(i % 10 == 0){
-                console.log(`Run number ${i}`);
-                console.log(`RUN ${i} Initial Weights: ${iniWeights} -- Final Weights: [${results.perceptron.getWeights()}]`);
-            }
             const iniWeights = JSON.stringify(p.getWeights());
             let results = training(p, data);
-            if(JSON.stringify(previousResults) != JSON.stringify(results)){
-                previousResults = results
-                let layout = {
-                    title:{
-                        text: `RUN ${i} Initial Weights: ${iniWeights} -- Final Weights: [${results.perceptron.getWeights()}]`,
-                        font: {
-                            size: 8
-                        }
-                    },
-                    showlegend: false
+            if(i % nLogs == 0){
+                console.log(`Run number ${i}`);
+                console.log(`RUN ${i+1} Initial Weights: ${iniWeights} -- Final Weights: [${results.perceptron.getWeights()}]`);
+                if(/* JSON.stringify(previousResults) != JSON.stringify(results */true){
+                    previousResults = results
+                    let layout = {
+                        title:{
+                            text: `RUN ${i} Initial Weights: ${iniWeights} -- Final Weights: [${results.perceptron.getWeights()}]`,
+                            font: {
+                                size: 8
+                            }
+                        },
+                        showlegend: false
+                    }
+                    await plt.plot(results.pred,layout);
                 }
-                await plt.plot(results.pred,layout);
             }
         }
     }
