@@ -2,25 +2,39 @@ function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
 
+function f(m,x,b){
+    //y = mx + b
+    return m*x + b
+}
+
 class Data2d{
     //Constructor
-    constructor(nPoints, min, max){
+    constructor(nPoints, min, max, rounding, linear){
         this.x = [];
         this.y = [];
+        this.bias = [];
         for (let i = 0; i < nPoints; i++){
-            this.x.push(getRandomArbitrary(min, max).toFixed(2));
-            this.y.push(getRandomArbitrary(min, max).toFixed(2));
+            if (linear){
+                this.x.push(Math.floor(Math.random() * nPoints));
+                this.y.push(Math.floor(Math.random() * nPoints));
+                this.bias.push(1);
+            } else {
+                this.x.push(getRandomArbitrary(min, max).toFixed(rounding));
+                this.y.push(getRandomArbitrary(min, max).toFixed(rounding));
+                this.bias.push(1);
+            }
         }
     }
     //Points
-    points(){
+    points(m,b){
         //Labels the point accordingly to its category
         let points = []
         for (let i = 0; i < this.x.length; i++){
-            if (this.x[i] > this.y[i]){
-                points.push({x:this.x[i], y:this.y[i], label:1})
+            let lineY = f(m,this.x[i],b)
+            if (this.y[i] > lineY){
+                points.push({x:this.x[i], y:this.y[i],bias:this.bias[i],label:1})
             }else {
-                points.push({x:this.x[i], y:this.y[i], label:-1})
+                points.push({x:this.x[i], y:this.y[i],bias:this.bias[i],label:-1})
             }
         }
         return points;
@@ -33,6 +47,7 @@ class Data2d{
             let somePoint = {
                 x : [],
                 y : [],
+                bias: [],
                 name : '',
                 legendgroup: '',
                 text: [],
@@ -50,6 +65,7 @@ class Data2d{
             if (points[i].label == 1){
                 somePoint.x = [points[i].x];
                 somePoint.y = [points[i].y];
+                somePoint.bias = [points[i].bias];
                 somePoint.name = c1;
                 somePoint.legendgroup = c1;
                 somePoint.text = [`${points[i].x}-${points[i].y}-L(${points[i].label})`];
@@ -57,6 +73,7 @@ class Data2d{
             } else {
                 somePoint.x = [points[i].x];
                 somePoint.y = [points[i].y];
+                somePoint.bias = [points[i].bias];
                 somePoint.name = c2;
                 somePoint.legendgroup = c2;
                 somePoint.text = [`${points[i].x}-${points[i].y}-L(${points[i].label})`];
